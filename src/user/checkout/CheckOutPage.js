@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+
 import './CheckOutPage.css';
 import { load } from "@cashfreepayments/cashfree-js";
 
@@ -23,7 +23,7 @@ const CheckoutPage = () => {
     country: "",
   });
 
-  const navigate = useNavigate();
+
 
   // Fetch user data from localStorage
   useEffect(() => {
@@ -31,18 +31,7 @@ const CheckoutPage = () => {
     setUser(userData);
   }, []);
 
-  // Fetch cart items and addresses when user is available
-  useEffect(() => {
-    if (user) {
-      fetchCartItems();
-      fetchAddresses();
-    } else {
-      setLoading(false);
-      setCartLoading(false);
-    }
-  }, [user]);
-
-  const fetchCartItems = async () => {
+  const fetchCartItems = React.useCallback(async () => {
     try {
       setCartLoading(true);
       const response = await axios.get(
@@ -55,9 +44,9 @@ const CheckoutPage = () => {
     } finally {
       setCartLoading(false);
     }
-  };
+  }, [user]);
 
-  const fetchAddresses = async () => {
+  const fetchAddresses = React.useCallback(async () => {
     try {
       setLoading(true);
       const response = await axios.get(
@@ -75,7 +64,20 @@ const CheckoutPage = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [user]);
+
+  // Fetch cart items and addresses when user is available
+  useEffect(() => {
+    if (user) {
+      fetchCartItems();
+      fetchAddresses();
+    } else {
+      setLoading(false);
+      setCartLoading(false);
+    }
+  }, [user, fetchCartItems, fetchAddresses]);
+
+
 
   const handleAddressChange = (addressId) => {
     setSelectedAddress(addressId);

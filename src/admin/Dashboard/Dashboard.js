@@ -7,7 +7,6 @@ import {
   FaChartLine,
   FaBell,
   FaSearch,
-  FaCog,
   FaUserCircle,
   FaArrowLeft,
   FaUserCheck,
@@ -15,15 +14,10 @@ import {
   FaTrash,
   FaEdit,
   FaEye,
-  FaEyeSlash,
-  FaPlus,
   FaTimes,
   FaStore,
-  FaCheckCircle,
-  FaTimesCircle,
   FaUserTie,
-  FaExclamationTriangle,
-  FaChevronRight
+  FaExclamationTriangle
 } from 'react-icons/fa';
 import './Dashboard.css';
 
@@ -52,31 +46,31 @@ const Dashboard = ({ onLogout }) => {
   const [users, setUsers] = useState([]);
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [userSearchTerm, setUserSearchTerm] = useState('');
-  const [userActionLoading, setUserActionLoading] = useState({});
+  const [, setUserActionLoading] = useState({}); // eslint-disable-next-line
   const [showUserConfirmDialog, setShowUserConfirmDialog] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
-  const [userActionType, setUserActionType] = useState('');
+  const [userActionType, setUserActionType] = useState(''); // eslint-disable-next-line
 
   // Product Management State
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [productSearchTerm, setProductSearchTerm] = useState('');
-  const [productActionLoading, setProductActionLoading] = useState({});
+  const [, setProductActionLoading] = useState({}); // eslint-disable-next-line
   const [showProductConfirmDialog, setShowProductConfirmDialog] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
-  const [productActionType, setProductActionType] = useState('');
+  const [, setProductActionType] = useState(''); // eslint-disable-next-line
 
   // Seller Management State
   const [sellers, setSellers] = useState([]);
   const [filteredSellers, setFilteredSellers] = useState([]);
   const [sellerSearchTerm, setSellerSearchTerm] = useState('');
-  const [sellerActionLoading, setSellerActionLoading] = useState({});
+  const [, setSellerActionLoading] = useState({}); // eslint-disable-next-line
   const [showSellerConfirmDialog, setShowSellerConfirmDialog] = useState(false);
   const [selectedSeller, setSelectedSeller] = useState(null);
   const [sellerActionType, setSellerActionType] = useState('');
   const [sellerRequests, setSellerRequests] = useState([]);
   const [showSellerRequests, setShowSellerRequests] = useState(false);
-  const [selectedRequest, setSelectedRequest] = useState(null);
+  const [, setSelectedRequest] = useState(null); // eslint-disable-next-line
   const [showRequestDetail, setShowRequestDetail] = useState(false);
   const [sellerDetail, setSellerDetail] = useState(null);
 
@@ -84,9 +78,9 @@ const Dashboard = ({ onLogout }) => {
   const [complaints, setComplaints] = useState([]);
   const [filteredComplaints, setFilteredComplaints] = useState([]);
   const [complaintSearchTerm, setComplaintSearchTerm] = useState('');
-  const [complaintStatusFilter, setComplaintStatusFilter] = useState('all');
-  const [complaintPriorityFilter, setComplaintPriorityFilter] = useState('all');
-  const [complaintActionLoading, setComplaintActionLoading] = useState({});
+  const [complaintStatusFilter] = useState('all');
+  const [complaintPriorityFilter] = useState('all');
+  const [, setComplaintActionLoading] = useState({}); // eslint-disable-next-line
   const [selectedComplaint, setSelectedComplaint] = useState(null);
   const [showComplaintDetail, setShowComplaintDetail] = useState(false);
   const [showUpdateComplaintModal, setShowUpdateComplaintModal] = useState(false);
@@ -98,6 +92,98 @@ const Dashboard = ({ onLogout }) => {
   const [orders, setOrders] = useState([]);
   const [filteredOrders, setFilteredOrders] = useState([]);
   const [orderSearchTerm, setOrderSearchTerm] = useState('');
+
+  const filterUsers = React.useCallback(() => {
+    if (!userSearchTerm.trim()) {
+      setFilteredUsers(users);
+      return;
+    }
+
+    const term = userSearchTerm.toLowerCase();
+    const filtered = users.filter(user =>
+      user.name.toLowerCase().includes(term) ||
+      user.email.toLowerCase().includes(term) ||
+      user.phoneNumber.includes(term)
+    );
+
+    setFilteredUsers(filtered);
+  }, [users, userSearchTerm]);
+
+  const filterProducts = React.useCallback(() => {
+    if (!productSearchTerm.trim()) {
+      setFilteredProducts(products);
+      return;
+    }
+
+    const term = productSearchTerm.toLowerCase();
+    const filtered = products.filter(product =>
+      product.name.toLowerCase().includes(term) ||
+      product.category.toLowerCase().includes(term) ||
+      product.subcategory.toLowerCase().includes(term) ||
+      product.sku.toLowerCase().includes(term)
+    );
+
+    setFilteredProducts(filtered);
+  }, [products, productSearchTerm]);
+
+  const filterSellers = React.useCallback(() => {
+    if (!sellerSearchTerm.trim()) {
+      setFilteredSellers(sellers);
+      return;
+    }
+
+    const term = sellerSearchTerm.toLowerCase();
+    const filtered = sellers.filter(seller =>
+      seller.name.toLowerCase().includes(term) ||
+      seller.email.toLowerCase().includes(term) ||
+      seller.businessName.toLowerCase().includes(term) ||
+      seller.businessType.toLowerCase().includes(term)
+    );
+
+    setFilteredSellers(filtered);
+  }, [sellers, sellerSearchTerm]);
+
+  const filterComplaints = React.useCallback(() => {
+    let filtered = [...complaints];
+
+    if (complaintSearchTerm.trim()) {
+      const term = complaintSearchTerm.toLowerCase();
+      filtered = filtered.filter(complaint =>
+        complaint.complaintType.toLowerCase().includes(term) ||
+        complaint.description.toLowerCase().includes(term) ||
+        (complaint.raisedByUser && complaint.raisedByUser.name.toLowerCase().includes(term)) ||
+        (complaint.raisedBySeller && complaint.raisedBySeller.name.toLowerCase().includes(term)) ||
+        (complaint.againstUser && complaint.againstUser.name.toLowerCase().includes(term)) ||
+        (complaint.againstSeller && complaint.againstSeller.name.toLowerCase().includes(term))
+      );
+    }
+
+    if (complaintStatusFilter !== 'all') {
+      filtered = filtered.filter(complaint => complaint.status === complaintStatusFilter);
+    }
+
+    if (complaintPriorityFilter !== 'all') {
+      filtered = filtered.filter(complaint => complaint.priority === complaintPriorityFilter);
+    }
+
+    setFilteredComplaints(filtered);
+  }, [complaints, complaintSearchTerm, complaintStatusFilter, complaintPriorityFilter]);
+
+  const filterOrders = React.useCallback(() => {
+    if (!orderSearchTerm.trim()) {
+      setFilteredOrders(orders);
+      return;
+    }
+
+    const term = orderSearchTerm.toLowerCase();
+    const filtered = orders.filter(order =>
+      order.id.toString().includes(term) ||
+      (order.user && order.user.name.toLowerCase().includes(term)) ||
+      (order.user && order.user.email.toLowerCase().includes(term))
+    );
+
+    setFilteredOrders(filtered);
+  }, [orders, orderSearchTerm]);
 
   useEffect(() => {
     fetchDashboardData();
@@ -118,24 +204,23 @@ const Dashboard = ({ onLogout }) => {
   }, [currentView]);
 
   useEffect(() => {
-    filterUsers();
-  }, [users, userSearchTerm]);
+  }, [filterUsers]);
 
   useEffect(() => {
     filterProducts();
-  }, [products, productSearchTerm]);
+  }, [filterProducts]);
 
   useEffect(() => {
     filterSellers();
-  }, [sellers, sellerSearchTerm]);
+  }, [filterSellers]);
 
   useEffect(() => {
     filterComplaints();
-  }, [complaints, complaintSearchTerm, complaintStatusFilter, complaintPriorityFilter]);
+  }, [filterComplaints]);
 
   useEffect(() => {
     filterOrders();
-  }, [orders, orderSearchTerm]);
+  }, [filterOrders]);
 
   const fetchDashboardData = async () => {
     try {
@@ -508,97 +593,7 @@ const Dashboard = ({ onLogout }) => {
     }
   };
 
-  const filterUsers = () => {
-    if (!userSearchTerm.trim()) {
-      setFilteredUsers(users);
-      return;
-    }
 
-    const term = userSearchTerm.toLowerCase();
-    const filtered = users.filter(user =>
-      user.name.toLowerCase().includes(term) ||
-      user.email.toLowerCase().includes(term) ||
-      user.phoneNumber.includes(term)
-    );
-
-    setFilteredUsers(filtered);
-  };
-
-  const filterProducts = () => {
-    if (!productSearchTerm.trim()) {
-      setFilteredProducts(products);
-      return;
-    }
-
-    const term = productSearchTerm.toLowerCase();
-    const filtered = products.filter(product =>
-      product.name.toLowerCase().includes(term) ||
-      product.category.toLowerCase().includes(term) ||
-      product.subcategory.toLowerCase().includes(term) ||
-      product.sku.toLowerCase().includes(term)
-    );
-
-    setFilteredProducts(filtered);
-  };
-
-  const filterSellers = () => {
-    if (!sellerSearchTerm.trim()) {
-      setFilteredSellers(sellers);
-      return;
-    }
-
-    const term = sellerSearchTerm.toLowerCase();
-    const filtered = sellers.filter(seller =>
-      seller.name.toLowerCase().includes(term) ||
-      seller.email.toLowerCase().includes(term) ||
-      seller.businessName.toLowerCase().includes(term) ||
-      seller.businessType.toLowerCase().includes(term)
-    );
-
-    setFilteredSellers(filtered);
-  };
-
-  const filterComplaints = () => {
-    let filtered = [...complaints];
-
-    if (complaintSearchTerm.trim()) {
-      const term = complaintSearchTerm.toLowerCase();
-      filtered = filtered.filter(complaint =>
-        complaint.complaintType.toLowerCase().includes(term) ||
-        complaint.description.toLowerCase().includes(term) ||
-        (complaint.raisedByUser && complaint.raisedByUser.name.toLowerCase().includes(term)) ||
-        (complaint.raisedBySeller && complaint.raisedBySeller.name.toLowerCase().includes(term)) ||
-        (complaint.againstUser && complaint.againstUser.name.toLowerCase().includes(term)) ||
-        (complaint.againstSeller && complaint.againstSeller.name.toLowerCase().includes(term))
-      );
-    }
-
-    if (complaintStatusFilter !== 'all') {
-      filtered = filtered.filter(complaint => complaint.status === complaintStatusFilter);
-    }
-
-    if (complaintPriorityFilter !== 'all') {
-      filtered = filtered.filter(complaint => complaint.priority === complaintPriorityFilter);
-    }
-
-    setFilteredComplaints(filtered);
-  };
-
-  const filterOrders = () => {
-    if (!orderSearchTerm.trim()) {
-      setFilteredOrders(orders);
-      return;
-    }
-
-    const term = orderSearchTerm.toLowerCase();
-    const filtered = orders.filter(order =>
-      order.id.toString().includes(term) ||
-      (order.user && order.user.name.toLowerCase().includes(term)) ||
-      (order.user && order.user.email.toLowerCase().includes(term))
-    );
-
-    setFilteredOrders(filtered);
-  };
 
   const handleUserSearch = (e) => {
     setUserSearchTerm(e.target.value);
@@ -620,13 +615,7 @@ const Dashboard = ({ onLogout }) => {
     setOrderSearchTerm(e.target.value);
   };
 
-  const handleStatusFilterChange = (e) => {
-    setComplaintStatusFilter(e.target.value);
-  };
 
-  const handlePriorityFilterChange = (e) => {
-    setComplaintPriorityFilter(e.target.value);
-  };
 
   const handleBlockUser = async (userId) => {
     setUserActionLoading(prev => ({ ...prev, [userId]: true }));

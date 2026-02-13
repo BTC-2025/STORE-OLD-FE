@@ -1,325 +1,316 @@
-/* MyOrders.css */
+/* MyOrders.css - Redesign */
 
-/* Container and Layout */
+/* --- Container & Global --- */
 .my-orders-container {
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  background-color: #f8f9fa;
   min-height: 100vh;
-  padding: 2rem 0;
+  padding: 40px 20px;
+  font-family: 'Inter', sans-serif;
 }
 
-.my-orders-main {
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-/* Header Styles */
 .my-orders-header {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  padding: 2rem;
-  border-radius: 20px;
-  margin-bottom: 2rem;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-  position: relative;
-  overflow: hidden;
+  text-align: center;
+  margin-bottom: 40px;
 }
 
-.my-orders-header::before {
-  content: '';
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
-  background-size: 20px 20px;
-  animation: float 20s infinite linear;
-}
-
-@keyframes float {
-  0% { transform: translate(0, 0) rotate(0deg); }
-  100% { transform: translate(-20px, -20px) rotate(360deg); }
-}
-
-.my-orders-title {
+.my-orders-header h1 {
   font-size: 2.5rem;
-  font-weight: 800;
-  margin: 0;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-  position: relative;
-  z-index: 1;
-}
-
-/* Order Card Styles */
-.order-card {
-  background: white;
-  border-radius: 20px;
-  margin-bottom: 1.5rem;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(10px);
-  overflow: hidden;
-  position: relative;
-}
-
-.order-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, #667eea, #764ba2, #f093fb);
-  background-size: 200% 100%;
-  animation: shimmer 3s infinite;
-}
-
-@keyframes shimmer {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
-}
-
-.order-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
-}
-
-.order-card-header {
-  padding: 2rem;
-  display: flex;
-  align-items: center;
-  gap: 1.5rem;
-  position: relative;
-}
-
-.order-image-container {
-  position: relative;
-  flex-shrink: 0;
-}
-
-.order-image {
-  width: 120px;
-  height: 120px;
-  border-radius: 15px;
-  object-fit: cover;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease;
-}
-
-.order-card:hover .order-image {
-  transform: scale(1.05);
-}
-
-.order-badge {
-  position: absolute;
-  top: -8px;
-  right: -8px;
-  background: linear-gradient(135deg, #ff6b6b, #ee5a24);
-  color: white;
-  padding: 4px 12px;
-  border-radius: 12px;
-  font-size: 0.75rem;
+  color: #1a202c;
+  margin-bottom: 10px;
   font-weight: 700;
-  box-shadow: 0 4px 12px rgba(255, 107, 107, 0.4);
 }
 
-.order-content {
-  flex: 1;
-  min-width: 0;
+.my-orders-header p {
+  color: #718096;
+  font-size: 1.1rem;
 }
 
-.order-product-name {
-  font-size: 1.4rem;
+/* --- Layout Grid --- */
+.orders-grid {
+  max-width: 1000px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* --- Order Group Card --- */
+.order-group-card {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+  transition: transform 0.2s, box-shadow 0.2s;
+  border: 1px solid #e2e8f0;
+}
+
+.order-group-card:hover {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.order-group-header {
+  background-color: #fff;
+  padding: 16px 24px;
+  border-bottom: 1px solid #edf2f7;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(to right, #f7fafc, #fff);
+}
+
+.order-meta {
+  display: flex;
+  flex-direction: column;
+}
+
+.order-id {
   font-weight: 700;
   color: #2d3748;
-  margin: 0 0 0.5rem 0;
-  line-height: 1.3;
-}
-
-.order-product-description {
-  color: #718096;
-  font-size: 0.95rem;
-  margin-bottom: 1rem;
-  line-height: 1.5;
-}
-
-.order-details {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  margin-bottom: 0.5rem;
-}
-
-.order-detail-item {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 0.9rem;
-  color: #4a5568;
-}
-
-.order-detail-icon {
-  width: 16px;
-  height: 16px;
-  opacity: 0.7;
-}
-
-.order-status {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.4rem 1rem;
-  border-radius: 20px;
-  font-size: 0.85rem;
-  font-weight: 600;
-  margin-top: 0.5rem;
-}
-
-.status-delivered {
-  background: linear-gradient(135deg, #48bb78, #38a169);
-  color: white;
-}
-
-.status-pending {
-  background: linear-gradient(135deg, #4299e1, #3182ce);
-  color: white;
-}
-
-.status-cancelled {
-  background: linear-gradient(135deg, #f56565, #e53e3e);
-  color: white;
+  font-size: 1rem;
 }
 
 .order-date {
-  color: #a0aec0;
   font-size: 0.85rem;
-  margin-top: 0.5rem;
+  color: #718096;
 }
 
-/* Review Button Styles */
-.review-toggle-btn {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  border: none;
-  color: white;
-  padding: 0.75rem 1.5rem;
-  border-radius: 12px;
+.order-subtotal {
   font-weight: 600;
-  font-size: 0.9rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
-  position: relative;
-  overflow: hidden;
+  color: #4a5568;
 }
 
-.review-toggle-btn::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-  transition: left 0.5s;
-}
-
-.review-toggle-btn:hover::before {
-  left: 100%;
-}
-
-.review-toggle-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
-}
-
-.cancel-order-btn {
-  background: linear-gradient(135deg, #f56565, #e53e3e);
-  border: none;
-  color: white;
-  padding: 0.75rem 1.5rem;
-  border-radius: 12px;
+/* --- Badges --- */
+.order-cancelled-badge {
+  background-color: #fee2e2;
+  color: #c53030;
+  padding: 4px 12px;
+  border-radius: 9999px;
+  font-size: 0.8rem;
   font-weight: 600;
-  font-size: 0.9rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(245, 101, 101, 0.3);
-  position: relative;
-  overflow: hidden;
+  border: 1px solid #fc8181;
 }
 
-.cancel-order-btn::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-  transition: left 0.5s;
-}
-
-.return-order-btn{
-  background: linear-gradient(135deg, #ed64a6, #d53f8c);
-  border: none;
-  color: white;
-  padding: 0.75rem 1.5rem;
-  border-radius: 12px;
+.refund-status-badge {
+  background-color: #ebf8ff;
+  color: #2b6cb0;
+  padding: 4px 12px;
+  border-radius: 9999px;
+  font-size: 0.8rem;
   font-weight: 600;
-  font-size: 0.9rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(237, 100, 166, 0.3);
-  position: relative;
-  overflow: hidden;
-}
-.return-order-btn::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-  transition: left 0.5s;
+  border: 1px solid #63b3ed;
 }
 
-/* Review Form Styles */
-.review-form-container {
-  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-  border-top: 1px solid #e2e8f0;
-  padding: 2rem;
-  animation: slideDown 0.3s ease-out;
+/* --- Items List --- */
+.order-items-list {
+  padding: 24px;
 }
-.return-form-container {
-  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-  border-top: 1px solid #e2e8f0;
-  padding: 2rem;
-  animation: slideDown 0.3s ease-out;
+
+.order-item-card {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 24px;
+  margin-bottom: 24px;
+  border-bottom: 1px solid #edf2f7;
+  position: relative;
+  /* For overlay positioning */
 }
-.return-form-title{
-  font-size: 1.5rem;
+
+.order-item-card:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.item-content-wrapper {
+  display: flex;
+  gap: 20px;
+  transition: filter 0.3s ease;
+}
+
+/* Cancelled State Logic */
+.item-cancelled .item-content-wrapper {
+  filter: blur(4px) grayscale(80%);
+  opacity: 0.6;
+  pointer-events: none;
+  /* Prevent clicks on blurred content */
+}
+
+.item-image img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+}
+
+.item-details {
+  flex: 1;
+}
+
+.item-details h3 {
+  font-size: 1.1rem;
+  color: #2d3748;
+  margin: 0 0 4px 0;
+}
+
+.item-seller {
+  font-size: 0.85rem;
+  color: #718096;
+  margin-bottom: 8px;
+}
+
+.item-price-qty {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 0.95rem;
+  color: #4a5568;
+  margin-bottom: 12px;
+}
+
+.item-price-qty .price {
   font-weight: 700;
   color: #2d3748;
-  margin-bottom: 1rem;
-}
-.return-textarea {
-  width: 100%;
-  padding: 1rem;
-  border: 2px solid #e2e8f0;
-  border-radius: 12px;
-  font-size: 0.95rem;
-  resize: vertical;
-  transition: all 0.3s ease;
-  background: white;
-  min-height: 120px;
 }
 
-.return-action{
+/* Status Badges */
+.status-badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.status-delivered {
+  background-color: #c6f6d5;
+  color: #276749;
+}
+
+.status-pending {
+  background-color: #bee3f8;
+  color: #2c5282;
+}
+
+.status-cancelled {
+  background-color: #fed7d7;
+  color: #9b2c2c;
+}
+
+.status-shipped {
+  background-color: #feebc8;
+  color: #9c4221;
+}
+
+/* --- Cancelled Overlay --- */
+.cancelled-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   display: flex;
-  gap: 1rem;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+  gap: 12px;
+}
+
+.cancelled-overlay span {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #c53030;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 8px 16px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.refund-status-btn {
+  background-color: #3182ce;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: background 0.2s;
+}
+
+.refund-status-btn:hover {
+  background-color: #2b6cb0;
+}
+
+
+/* --- Action Buttons --- */
+.item-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 16px;
   justify-content: flex-end;
-  margin-top: 1.5rem;
+}
+
+.btn-action,
+.btn-cancel-order {
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-review {
+  background-color: #ebf4ff;
+  color: #4299e1;
+}
+
+.btn-review:hover {
+  background-color: #bee3f8;
+}
+
+.btn-return {
+  background-color: #fff5f5;
+  color: #e53e3e;
+}
+
+.btn-return:hover {
+  background-color: #fed7d7;
+}
+
+.btn-complaint {
+  background-color: #fffaf0;
+  color: #dd6b20;
+}
+
+.btn-complaint:hover {
+  background-color: #feebc8;
+}
+
+.btn-cancel-order {
+  background-color: #fff;
+  border: 1px solid #cbd5e0;
+  color: #718096;
+}
+
+.btn-cancel-order:hover {
+  background-color: #f7fafc;
+  border-color: #a0aec0;
+  color: #2d3748;
+}
+
+/* --- Forms --- */
+.action-form-container {
+  margin-top: 20px;
+  background-color: #f7fafc;
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid #edf2f7;
+  animation: slideDown 0.3s ease-out;
 }
 
 @keyframes slideDown {
@@ -327,418 +318,113 @@
     opacity: 0;
     transform: translateY(-10px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
   }
 }
 
-.review-header {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  margin-bottom: 1.5rem;
-}
-
-.review-product-image {
-  width: 64px;
-  height: 64px;
-  border-radius: 12px;
-  object-fit: cover;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-.review-product-name {
-  font-size: 1.2rem;
-  font-weight: 700;
+.form-content h4 {
+  margin-top: 0;
+  margin-bottom: 12px;
   color: #2d3748;
-  margin: 0;
 }
 
-.rating-star {
-  display: flex;
-  gap: 0.25rem;
-  margin-top: 0.5rem;
-
-}
-
-.star {
-  width: 28px;
-  height: 28px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  fill: currentColor;
-}
-
-.star:hover {
-  transform: scale(1.2);
-}
-
-.star.active {
-  color: #fbbf24;
-  filter: drop-shadow(0 2px 4px rgba(251, 191, 36, 0.4));
-}
-
-.star.inactive {
-  color: black;
-}
-
-.review-textarea {
+.form-content textarea {
   width: 100%;
-  padding: 1rem;
-  border: 2px solid #e2e8f0;
-  border-radius: 12px;
-  font-size: 0.95rem;
-  resize: vertical;
-  transition: all 0.3s ease;
-  background: white;
-  min-height: 120px;
+  padding: 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  min-height: 80px;
+  margin-bottom: 12px;
+  font-family: inherit;
 }
 
-.review-textarea:focus {
-  outline: none;
-  border-color: #667eea;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-}
-
-.review-actions {
-  display: flex;
-  gap: 1rem;
-  justify-content: flex-end;
-  margin-top: 1.5rem;
-}
-
-.btn-cancel {
-  background: #e2e8f0;
-  color: #4a5568;
-  border: none;
-  padding: 0.75rem 1.5rem;
-  border-radius: 10px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.btn-cancel:hover {
-  background: #cbd5e0;
-  transform: translateY(-1px);
-}
-
-.btn-submit {
-  background: linear-gradient(135deg, #48bb78, #38a169);
+.form-content button {
+  background-color: #48bb78;
   color: white;
   border: none;
-  padding: 0.75rem 1.5rem;
-  border-radius: 10px;
+  padding: 8px 20px;
+  border-radius: 8px;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(72, 187, 120, 0.3);
 }
 
-.btn-submit:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(72, 187, 120, 0.4);
+.form-content button:hover {
+  background-color: #38a169;
 }
 
-.btn-submit:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-  transform: none;
+.star-rating {
+  font-size: 1.5rem;
+  color: #cbd5e0;
+  cursor: pointer;
+  margin-bottom: 12px;
 }
 
-/* Loading and Empty States */
-.loading-container {
+.star-rating .star.filled {
+  color: #ecc94b;
+}
+
+/* --- Loading / Empty --- */
+.loading-spinner-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 300px;
+  height: 60vh;
 }
 
-.loading-spinner {
-  width: 50px;
-  height: 50px;
+.spinner {
+  width: 40px;
+  height: 40px;
   border: 4px solid #e2e8f0;
-  border-left: 4px solid #667eea;
+  border-top-color: #3182ce;
   border-radius: 50%;
-  animation: spin 1s linear infinite;
+  animation: spin 0.8s linear infinite;
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .empty-state {
   text-align: center;
-  padding: 4rem 2rem;
-  color: #718096;
+  padding: 60px;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 
-.empty-state-icon {
-  font-size: 4rem;
-  margin-bottom: 1rem;
-  opacity: 0.5;
+.empty-icon {
+  font-size: 3rem;
+  margin-bottom: 16px;
 }
 
-.empty-state-text {
-  font-size: 1.2rem;
-  margin-bottom: 0.5rem;
-}
-
-.empty-state-subtext {
-  font-size: 1rem;
-  opacity: 0.7;
-}
-
-/* Responsive Design */
+/* Responsive */
 @media (max-width: 768px) {
-  .my-orders-header {
-    padding: 1.5rem;
-    margin-bottom: 1.5rem;
-  }
-  
-  .my-orders-title {
-    font-size: 2rem;
-  }
-  
-  .order-card-header {
-    padding: 1.5rem;
+  .order-group-header {
     flex-direction: column;
-    text-align: center;
+    align-items: flex-start;
+    gap: 12px;
   }
-  
-  .order-image {
-    width: 100px;
-    height: 100px;
-  }
-  
-  .review-form-container {
-    padding: 1.5rem;
-  }
-  
-  .review-header {
-    flex-direction: column;
-    text-align: center;
-  }
-  
-  .review-actions {
+
+  .item-content-wrapper {
     flex-direction: column;
   }
-  
-  .btn-cancel,
-  .btn-submit {
+
+  .item-image img {
     width: 100%;
+    height: 150px;
   }
-}
 
-@media (max-width: 480px) {
-  .my-orders-container {
-    padding: 1rem 0;
-  }
-  
-  .order-card-header {
-    padding: 1rem;
-  }
-  
-  .order-details {
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-}
-
-/* Animation for order cards appearing */
-.order-card {
-  animation: fadeInUp 0.6s ease-out;
-}
-
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Hover effects for interactive elements */
-.order-card:hover .order-badge {
-  animation: bounce 0.5s ease;
-}
-
-@keyframes bounce {
-  0%, 20%, 60%, 100% {
-    transform: translateY(0);
-  }
-  40% {
-    transform: translateY(-5px);
-  }
-  80% {
-    transform: translateY(-3px);
-  }
-}
-
-/* Custom scrollbar for review textarea */
-.review-textarea::-webkit-scrollbar {
-  width: 6px;
-}
-
-.review-textarea::-webkit-scrollbar-track {
-  background: #f1f1f1;
-  border-radius: 3px;
-}
-
-.review-textarea::-webkit-scrollbar-thumb {
-  background: #cbd5e0;
-  border-radius: 3px;
-}
-
-.review-textarea::-webkit-scrollbar-thumb:hover {
-  background: #a0aec0;
-}
-
-/* Add these styles to your existing MyOrders.css */
-
-.order-actions {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  margin-top: 10px;
-}
-
-.complaint-btn {
-  background-color: #ff6b6b;
-  color: white;
-  border: none;
-  padding: 10px 15px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 14px;
-  transition: background-color 0.3s;
-}
-
-.complaint-btn:hover {
-  background-color: #ff5252;
-}
-
-.complaint-form-container {
-  border-top: 1px solid #eee;
-  padding: 20px;
-  background-color: #f9f9f9;
-  margin-top: 15px;
-  border-radius: 8px;
-}
-
-.complaint-form-title {
-  margin-bottom: 15px;
-  color: #333;
-  font-size: 18px;
-}
-
-.complaint-info {
-  background-color: #fff;
-  padding: 12px;
-  border-radius: 6px;
-  margin-bottom: 15px;
-  border-left: 4px solid #ff6b6b;
-}
-
-.complaint-info p {
-  margin: 5px 0;
-  font-size: 14px;
-}
-
-.form-group {
-  margin-bottom: 15px;
-}
-
-.form-label {
-  display: block;
-  margin-bottom: 5px;
-  font-weight: 600;
-  color: #333;
-}
-
-.complaint-select {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  font-size: 14px;
-  background-color: white;
-}
-
-.complaint-textarea {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  font-size: 14px;
-  resize: vertical;
-  min-height: 100px;
-  font-family: inherit;
-}
-
-.complaint-actions {
-  display: flex;
-  gap: 10px;
-  justify-content: flex-end;
-  margin-top: 20px;
-}
-
-.btn-cancel {
-  background-color: #6c757d;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 14px;
-}
-
-.btn-submit {
-  background-color: #28a745;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 14px;
-}
-
-.btn-cancel:hover {
-  background-color: #5a6268;
-}
-
-.btn-submit:hover {
-  background-color: #218838;
-}
-
-.order-detail-item span {
-  font-weight: 600;
-  color: #555;
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-  .order-actions {
-    flex-direction: row;
+  .item-actions {
     flex-wrap: wrap;
   }
-  
-  .review-toggle-btn,
-  .return-order-btn,
-  .complaint-btn,
-  .cancel-order-btn {
+
+  .btn-action {
     flex: 1;
-    min-width: 120px;
-    font-size: 12px;
-    padding: 8px 10px;
-  }
-  
-  .complaint-form-container {
-    padding: 15px;
+    text-align: center;
   }
 }

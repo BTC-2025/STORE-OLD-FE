@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { FaArrowLeft, FaPlus, FaUpload, FaInfoCircle, FaTag, FaBoxOpen, FaImage, FaListUl, FaCheck, FaTimes } from 'react-icons/fa';
+import React, { useState, useEffect, useCallback } from 'react';
+import { FaArrowLeft, FaUpload, FaTag, FaBoxOpen, FaImage, FaListUl, FaCheck } from 'react-icons/fa';
 import './AddProductPage.css';
 
 const AddProductPage = ({ sellerToken, onBackToDashboard }) => {
@@ -20,17 +20,10 @@ const AddProductPage = ({ sellerToken, onBackToDashboard }) => {
     isAvailable: true,
     isFeatured: false,
     createdBy: '',
-    tagline: [''],
     discount: 0
   });
 
-  const [activeTab, setActiveTab] = useState('general'); // For mobile/tablet tabs if needed
-
-  useEffect(() => {
-    fetchBrands();
-  }, []);
-
-  const getSellerIdFromToken = () => {
+  const getSellerIdFromToken = useCallback(() => {
     try {
       const tokenPayload = sellerToken.split('.')[1];
       const decodedPayload = atob(tokenPayload);
@@ -40,9 +33,9 @@ const AddProductPage = ({ sellerToken, onBackToDashboard }) => {
       console.error('Error extracting seller ID from token:', error);
       return null;
     }
-  };
+  }, [sellerToken]);
 
-  const fetchBrands = async () => {
+  const fetchBrands = useCallback(async () => {
     try {
       const sellerId = getSellerIdFromToken();
       if (!sellerId) {
@@ -65,7 +58,15 @@ const AddProductPage = ({ sellerToken, onBackToDashboard }) => {
       console.error('Error fetching brands:', error);
       // alert('Failed to load brands. Please try again.');
     }
-  };
+  }, [sellerToken, getSellerIdFromToken]);
+
+
+
+  useEffect(() => {
+    fetchBrands();
+  }, [fetchBrands]);
+
+
 
   const handleAddProduct = async (e) => {
     e.preventDefault();

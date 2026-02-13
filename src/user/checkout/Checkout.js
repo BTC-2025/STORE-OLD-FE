@@ -10,7 +10,7 @@ const Checkout = () => {
   const [addresses, setAddresses] = useState([]);
   const [selectedAddress, setSelectedAddress] = useState(null);
   const [showAddressForm, setShowAddressForm] = useState(false);
-  const [reviews, setReviews] = useState([]);
+
   const [loading, setLoading] = useState(true);
   const [quantity, setQuantity] = useState(1);
   const [couponCode, setCouponCode] = useState(''); // Coupon state
@@ -52,12 +52,12 @@ const Checkout = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [productRes, reviewsRes] = await Promise.all([
+        const [productRes] = await Promise.all([
           axios.get(`${process.env.REACT_APP_BASE_URL}/api/product/${id}`),
           axios.get(`${process.env.REACT_APP_BASE_URL}/api/review/product/${id}`)
         ]);
         setProduct(productRes.data);
-        setReviews(reviewsRes.data.reviews || []);
+        // reviews removed
       } catch (error) {
         console.error('Error fetching data:', error);
         toast.error("Failed to load product details");
@@ -78,7 +78,7 @@ const Checkout = () => {
         })
         .catch(err => console.error(err));
     }
-  }, [user?.id]);
+  }, [user]);
 
   // Handle Coupon Verification
   const handleApplyCoupon = async () => {
@@ -132,7 +132,7 @@ const Checkout = () => {
         addressId: selectedAddress,
         couponCode: appliedCoupon ? couponCode : null, // Pass coupon code
         paymentMethod: paymentMethod, // Use selected method
-        shippingAddress: addresses.find(a => a.id == selectedAddress) // Use loose equality for safety
+        shippingAddress: addresses.find(a => a.id === selectedAddress) // Use loose equality for safety
       };
 
       const orderResponse = await axios.post(
@@ -185,7 +185,7 @@ const Checkout = () => {
   };
 
   // ... (Address handlers: handleNewAddressChange, handleAddAddress - simplified for brevity logic remains mostly same)
-  const handleNewAddressChange = (e) => setNewAddress({ ...newAddress, [e.target.name]: e.target.value });
+
 
   const handleAddAddress = async (e) => {
     e.preventDefault();

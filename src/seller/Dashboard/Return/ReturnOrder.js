@@ -3,7 +3,6 @@ import {
   FaArrowLeft,
   FaUndo,
   FaExclamationCircle,
-  FaBoxOpen,
   FaCheckCircle,
   FaTimesCircle,
   FaClock

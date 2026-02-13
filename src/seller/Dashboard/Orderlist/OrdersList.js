@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { FaArrowLeft, FaFilter, FaEye, FaTimes, FaBoxOpen, FaCalendarAlt, FaMoneyBillWave, FaTruck } from 'react-icons/fa';
+import { FaArrowLeft, FaFilter, FaBoxOpen, FaTimes } from 'react-icons/fa';
 import './OrdersList.css';
 
 const OrdersList = ({ sellerToken, onBackToDashboard }) => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+
   const [filterStatus, setFilterStatus] = useState('All');
   const [filteredOrders, setFilteredOrders] = useState([]);
   const [selectedOrder, setSelectedOrder] = useState(null);
@@ -33,7 +33,7 @@ const OrdersList = ({ sellerToken, onBackToDashboard }) => {
         setLoading(false);
       } catch (error) {
         console.error('Error fetching orders:', error);
-        setError(error.message);
+
         setLoading(false);
       }
     };
@@ -69,7 +69,7 @@ const OrdersList = ({ sellerToken, onBackToDashboard }) => {
       setShowModal(true);
     } catch (error) {
       console.error('Error fetching order details:', error);
-      setError('Failed to load order details');
+
     }
   };
 
