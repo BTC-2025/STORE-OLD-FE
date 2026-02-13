@@ -14,9 +14,14 @@ const NewArrivals = () => {
         const res = await axios.get(
           `${process.env.REACT_APP_BASE_URL}/api/product/new`
         );
-        setProducts(res.data);
+        if (Array.isArray(res.data)) {
+          setProducts(res.data);
+        } else {
+          setProducts([]);
+        }
       } catch (err) {
         console.error("Failed to fetch new arrivals", err);
+        setProducts([]);
       } finally {
         setLoading(false);
       }
@@ -34,7 +39,7 @@ const NewArrivals = () => {
         <a href="/products?sort=newest" className="view-all-link">View All</a>
       </div>
       <div className="products-grid">
-        {products.slice(0, 4).map((product) => (
+        {Array.isArray(products) && products.slice(0, 4).map((product) => (
           <ProductCard key={product.id} product={product} />
         ))}
       </div>
