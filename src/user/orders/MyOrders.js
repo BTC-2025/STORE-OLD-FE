@@ -101,12 +101,33 @@ function MyOrders() {
   const handleReturnSubmit = async (orderId, itemId) => {
     if (!returnReason) return alert("Please provide a reason for return.");
     try {
+      // Optimistic UI Update: Add a pending return to the item
+      setOrders(prevOrders => prevOrders.map(order => {
+        if (order.id === orderId) {
+          return {
+            ...order,
+            items: order.items.map(item => {
+              if (item.id === itemId) {
+                return {
+                  ...item,
+                  returns: [{ status: 'Pending', reason: returnReason, createdAt: new Date().toISOString() }]
+                };
+              }
+              return item;
+            })
+          };
+        }
+        return order;
+      }));
+
       await axios.post(`${process.env.REACT_APP_BASE_URL}/api/return/create`, { orderId, userId, reason: returnReason, orderItemId: itemId });
       alert("Return request submitted successfully!");
       resetForms();
     } catch (err) {
       console.error("Error submitting return request", err);
       alert("Failed to submit return.");
+      // On error, a simple reload is often safest to restore state
+      window.location.reload();
     }
   };
 
@@ -196,8 +217,10 @@ function MyOrders() {
               <div className="order-items-list">
                 {order.items.map((item) => {
                   const isCancelled = isOrderCancelled(order, item);
-                  const showActions = !isCancelled && item.status === 'Delivered';
-                  const showCancel = !isCancelled && item.status !== 'Delivered';
+                  const hasReturn = item.returns && item.returns.length > 0;
+                  const returnStatus = hasReturn ? item.returns[item.returns.length - 1].status : null;
+                  const showActions = !isCancelled && item.status === 'Delivered' && !hasReturn;
+                  const showCancel = !isCancelled && item.status !== 'Delivered' && !hasReturn;
 
                   // Determine blurred state: Cancelled items are blurred, but the overlay sits on top
                   // Actually, we blur the content, keep actions/badges visible
@@ -219,6 +242,11 @@ function MyOrders() {
                           <div className={`status-badge status-${item.status.toLowerCase()}`}>
                             {item.status}
                           </div>
+                          {hasReturn && (
+                            <div className={`return-status-badge return-status-${returnStatus.toLowerCase().replace(/\s+/g, '-')}`}>
+                              Return: {returnStatus}
+                            </div>
+                          )}
                         </div>
                       </div>
 

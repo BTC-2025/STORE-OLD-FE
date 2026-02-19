@@ -13,8 +13,6 @@ import Checkout from "./user/checkout/Checkout";
 import ProfilePage from "./user/profile/ProfilePage";
 import ForgotPassword from "./user/forgot-password/ForgotPassword";
 import CheckoutPage from "./user/checkout/CheckOutPage";
-import Admin from "./admin/Admin";
-import Seller from "./seller/Seller";
 import MyOrders from "./user/orders/MyOrders";
 import PaymentStatus from "./user/payment/PaymentStatus";
 import OrderSuccess from "./user/orders/OrderSuccess";
@@ -93,9 +91,6 @@ function App() {
           <Route path="/payment/status" element={<PaymentStatus />} />
         </Route>
 
-        {/* Admin & Seller Routes (Standalone) */}
-        <Route path='/admin' element={<Admin />} />
-        <Route path='/seller' element={<Seller />} />
       </Routes>
     </Router>
   );

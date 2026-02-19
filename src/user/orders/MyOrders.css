@@ -203,6 +203,48 @@
   color: #9c4221;
 }
 
+/* Return Status Badges */
+.return-status-badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-top: 8px;
+  border: 1px solid transparent;
+}
+
+.return-status-pending {
+  background-color: #ebf8ff;
+  color: #2b6cb0;
+  border-color: #bee3f8;
+}
+
+.return-status-approved {
+  background-color: #f0fff4;
+  color: #2f855a;
+  border-color: #c6f6d5;
+}
+
+.return-status-rejected {
+  background-color: #fff5f5;
+  color: #c53030;
+  border-color: #fed7d7;
+}
+
+.return-status-refund-initiated {
+  background-color: #ebf8ff;
+  color: #2b6cb0;
+  border-color: #bee3f8;
+}
+
+.return-status-completed {
+  background-color: #ebf4ff;
+  color: #3182ce;
+  border-color: #bee3f8;
+}
+
 /* --- Cancelled Overlay --- */
 .cancelled-overlay {
   position: absolute;

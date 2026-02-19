@@ -164,7 +164,7 @@ const ProductDetail = () => {
           <div className="pd-rating-row">
             <div className="pd-stars">
               {[...Array(5)].map((_, i) => (
-                <i key={i} className={`fas fa-star ${i < Math.round(avgRating) ? '' : 'text-muted'}`} style={{ opacity: i < Math.round(avgRating) ? 1 : 0.3 }}></i>
+                <i key={i} className={`fas fa-star ${i < Math.round(avgRating) ? 'filled' : 'empty'}`}></i>
               ))}
             </div>
             <span className="pd-review-count" onClick={() => document.getElementById('reviews').scrollIntoView({ behavior: 'smooth' })}>
@@ -173,10 +173,10 @@ const ProductDetail = () => {
           </div>
 
           <div className="pd-price-row">
-            <span className="pd-price">₹{product.price}</span>
+            <span className="pd-price">₹{(product.price * (1 - product.discount / 100)).toFixed(2)}</span>
             {product.discount > 0 && (
               <>
-                <span className="pd-original-price">₹{Math.round(product.price * (1 + product.discount / 100))}</span>
+                <span className="pd-original-price">₹{product.price}</span>
                 <span className="pd-discount">{product.discount}% OFF</span>
               </>
             )}
@@ -249,7 +249,7 @@ const ProductDetail = () => {
                   <div className="pd-big-rating">{avgRating}</div>
                   <div className="pd-stars">
                     {[...Array(5)].map((_, i) => (
-                      <i key={i} className={`fas fa-star ${i < Math.round(avgRating) ? '' : 'text-muted'}`}></i>
+                      <i key={i} className={`fas fa-star ${i < Math.round(avgRating) ? 'filled' : 'empty'}`}></i>
                     ))}
                   </div>
                   <div className="pd-total-reviews">Based on {reviews.length} reviews</div>
@@ -269,7 +269,7 @@ const ProductDetail = () => {
                       </div>
                       <div className="pd-stars mb-2">
                         {[...Array(5)].map((_, i) => (
-                          <i key={i} className={`fas fa-star ${i < review.rating ? '' : 'text-muted'}`} style={{ fontSize: '12px' }}></i>
+                          <i key={i} className={`fas fa-star ${i < review.rating ? 'filled' : 'empty'}`} style={{ fontSize: '12px' }}></i>
                         ))}
                       </div>
                       <p className="pd-review-body">{review.comment}</p>

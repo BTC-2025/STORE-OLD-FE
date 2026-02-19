@@ -197,9 +197,15 @@
 }
 
 .pd-stars {
-  color: var(--pd-primary);
-  /* Modern black stars, or use #FFC107 */
   font-size: 14px;
+}
+
+.pd-stars i.filled {
+  color: #ffc107 !important;
+}
+
+.pd-stars i.empty {
+  color: #e0e0e0;
 }
 
 .pd-review-count {

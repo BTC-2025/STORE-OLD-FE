@@ -204,9 +204,10 @@ const Checkout = () => {
   // Calculations
   const unitPrice = product.price - (product.price * (product.discount / 100));
   const itemTotal = unitPrice * quantity;
-  const deliveryCharge = itemTotal > 500 ? 0 : 40; // Example delivery logic
-  const tax = (itemTotal - discountAmount) * 0.18; // 18% GST example
-  const finalTotal = itemTotal - discountAmount + deliveryCharge + tax;
+  const taxableAmount = itemTotal - discountAmount;
+  const deliveryCharge = taxableAmount > 500 ? 0 : 40;
+  const tax = taxableAmount * 0.18; // 18% GST example
+  const finalTotal = taxableAmount + deliveryCharge + tax;
 
   return (
     <div className="checkout-container">

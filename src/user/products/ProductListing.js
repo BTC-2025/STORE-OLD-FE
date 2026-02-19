@@ -463,10 +463,10 @@ const ProductListing = () => {
 
                   <div className="pl-card-bottom">
                     <div className="pl-prices">
-                      <span className="pl-price-current">₹{product.price}</span>
+                      <span className="pl-price-current">₹{(product.price * (1 - product.discount / 100)).toFixed(2)}</span>
                       {product.discount > 0 && (
                         <span className="pl-price-old">
-                          ₹{Math.round(product.price / (1 - product.discount / 100))}
+                          ₹{product.price}
                         </span>
                       )}
                     </div>

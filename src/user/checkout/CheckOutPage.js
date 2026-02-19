@@ -215,21 +215,35 @@ const CheckoutPage = () => {
 
   // Calculate prices
   const calculatePrices = () => {
-    const totalPrice = cartItems.reduce((acc, item) => acc + (item.price * item.quantity), 0);
+    let originalTotalPrice = 0;
+    let totalProductDiscount = 0;
 
-    const totalDiscount = cartItems.reduce((acc, item) => {
-      const discountPercent = item.discount / 100 || 0;
-      return acc + (item.price * discountPercent * item.quantity);
-    }, 0);
+    cartItems.forEach(item => {
+      const price = item.price || item.Product?.price || 0;
+      const discount = item.discount || item.Product?.discount || 0;
 
-    const deliveryFee = totalPrice > 50 ? 0 : 9.99;
-    const protectFee = cartItems.length > 0 ? 9 : 0;
-    const finalAmount = cartItems.length > 0 ? totalPrice - totalDiscount + deliveryFee + protectFee : 0;
+      originalTotalPrice += price * item.quantity;
+      totalProductDiscount += (price * (discount / 100)) * item.quantity;
+    });
 
-    return { totalPrice, totalDiscount, deliveryFee, protectFee, finalAmount };
+    const subtotal = originalTotalPrice - totalProductDiscount;
+    // Note: coupon support could be added here later if needed, matching Checkout.js
+    const taxableAmount = subtotal;
+
+    const deliveryFee = taxableAmount > 500 ? 0 : 40;
+    const taxAmount = taxableAmount * 0.18;
+    const finalAmount = taxableAmount + deliveryFee + taxAmount;
+
+    return {
+      totalPrice: originalTotalPrice,
+      totalDiscount: totalProductDiscount,
+      deliveryFee,
+      taxAmount,
+      finalAmount
+    };
   };
 
-  const { totalPrice, totalDiscount, deliveryFee, protectFee, finalAmount } = calculatePrices();
+  const { totalPrice, totalDiscount, deliveryFee, taxAmount, finalAmount } = calculatePrices();
 
   const showMessage = (text, type) => {
     setMessage({ show: true, text, type });
@@ -523,8 +537,8 @@ const CheckoutPage = () => {
               </div>
 
               <div className="summary-item">
-                <span>Protection Fee</span>
-                <span>₹{protectFee.toFixed(2)}</span>
+                <span>Tax (18% GST)</span>
+                <span>₹{taxAmount.toFixed(2)}</span>
               </div>
 
               <div className="summary-divider"></div>

@@ -19,7 +19,7 @@ const ProductCard = ({
   isInWishlist = false,
   isInCart = false
 }) => {
-  const { id, name, price, image, discount, rating, stock } = product;
+  const { id, name, price, image, discount, averageRating, stock } = product;
 
   // Calculate discount price
   const discountedPrice = discount > 0
@@ -79,17 +79,17 @@ const ProductCard = ({
         </Link>
 
         {/* Rating */}
-        {rating && (
+        {averageRating !== undefined && averageRating !== null && (
           <div className="product-card-rating">
             <div className="rating-stars">
               {[...Array(5)].map((_, i) => (
                 <i
                   key={i}
-                  className={`fas fa-star ${i < Math.floor(rating) ? 'star-filled' : 'star-empty'}`}
+                  className={`fas fa-star ${i < Math.floor(averageRating) ? 'star-filled' : 'star-empty'}`}
                 ></i>
               ))}
             </div>
-            <span className="rating-value">{rating.toFixed(1)}</span>
+            <span className="rating-value">{Number(averageRating).toFixed(1)}</span>
           </div>
         )}
 
